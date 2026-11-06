@@ -13,3 +13,4 @@ docs/     notes and templates
 ## Author
 Your Name
 blablablabla
+echo "Author: Tom, 2026-11-06" >> README.md

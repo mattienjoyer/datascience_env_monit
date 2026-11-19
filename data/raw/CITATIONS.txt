@@ -1,0 +1,13 @@
+Data citations for my towers (from the FLUXNET Shuttle snapshot)
+
+DE-HoH: Rebmann, C., Dienstbach, L., Schmidt, P., Wiesen, R., Meis, J., Feldmann, I., Bastos Campos, F., Dejosez, S., Garcia Quiros, I., Gimper, S., Hautmann, D., Hildebrandt, A., Kempka, P., Paasch, S. (2026). Fluxnet Archive Product from Hohes Holz, 2015-01-01–2026-09-06, FLUXNET, https://hdl.handle.net/11676/2gBr7fYbxeL6oMsRhXYEBWyx
+
+CA-Man: Brian Amiro (2025), AmeriFlux FLUXNET-1F CA-Man Manitoba - Northern Old Black Spruce (former BOREAS Northern Study Area), Ver. v1.3_r1 (1994-2008), AmeriFlux AMP, (Dataset). https://doi.org/10.17190/AMF/2571101
+
+AU-Sam: Grace, P., Gane, M., Grace, L., Brunk, C. (2026): Samford FLUXNET Release 2026_r1 . Version  2026_r1. Terrestrial Ecosystem Research Network (TERN). (Dataset).
+
+KR-CRK: Kang, M., Kang, M., Kim, J., Ryu, Y., Sohn, S. (2025). Fluxnet Archive Product from Cheorwon Rice paddy, 2015–2021, FLUXNET, https://hdl.handle.net/11676/H8OP2ngO7ZJkZ087BV4UNehk
+
+US-ICh: Eugenie Euskirchen, Gaius Shaver, Syndonia Bret-Harte (2026), AmeriFlux FLUXNET-1F US-ICh Imnavait Creek Watershed Heath Tundra, Ver. v1.3_r1 (2007-2025), AmeriFlux AMP, (Dataset). https://doi.org/10.17190/AMF/2007175
+
+Also cite: Pastorello et al. (2020), Scientific Data 7, 225, https://doi.org/10.1038/s41597-020-0534-3

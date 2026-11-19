@@ -1,0 +1,116 @@
+# One download command per student (run from your project folder after "fluxnet-shuttle listall -o data/snapshots")
+
+01  Allgaier, Matti
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s BR-Ma2 JP-Fhk IT-Tor US-UiB CN-Zha -o data/raw
+
+02  Becker, Barbara
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CZ-Lnz CA-LP1 JP-Tmd DE-RuS AU-DaS -o data/raw
+
+03  Bundor, Thomas Tamba
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Cow FR-FBn JP-NsM US-Ro1 ES-Agu -o data/raw
+
+04  Czak, Konstantin
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s JP-Spp CZ-RAJ CA-Gro US-Ro4 FR-Aur -o data/raw
+
+05  Digel, Lucia
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Cum FR-Bil CH-Cha CN-Dmn US-Myb -o data/raw
+
+06  Eckert, Anna
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s DE-Lnf FI-Let US-Kon CN-Lch AU-Cpr -o data/raw
+
+07  Enderweit, Franziska
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-Rpf IT-SRo BE-Dor AU-Rgf ID-PaB -o data/raw
+
+08  Franke, Rebecca
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s GF-Guy US-GLE BE-Vie AU-Ync JP-Mse -o data/raw
+
+09  Gangnus, Simon
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CN-Ash FR-LBr AU-Stp CH-Oe2 US-BZB -o data/raw
+
+10  Jangandi, Ananya
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-Bar JP-Khw CH-Aws SN-Nkr AU-ASM -o data/raw
+
+11  Katlewski, Sofie
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Gin US-Vcp CN-Aro BR-Ma3 ES-Amo -o data/raw
+
+12  Kim, Seoyoung
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-MOz IL-Yat JP-SMF CH-Fru IT-BCi -o data/raw
+
+13  Koehn, Anna-Katharina
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Wom JP-Fjy SN-Dhr US-Mo1 DE-Hte -o data/raw
+
+14  Lee, Chaeyeon
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Rob DE-Obe US-SRG KR-CmF ES-LM2 -o data/raw
+
+15  Masud, Tasnim Binte
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CZ-Stn IT-TrF NZ-ADw US-UiC CN-YaS -o data/raw
+
+16  Melzl, Lilly
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-GWW JP-Tef US-Akn DE-GsB FR-EM2 -o data/raw
+
+17  Mohr, Frieda
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-ChR IT-Lav JP-NsC CN-Yuc AU-APL -o data/raw
+
+18  Mönkemöller, Niklas
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s FR-Hes CA-Ca2 CN-HaM US-Bi1 AU-Dry -o data/raw
+
+19  Müller, Kornelius
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s DE-Hai RU-Fyo US-UiD FR-Gri CN-Sdq -o data/raw
+
+20  Neumann, Mick
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CA-TPD FI-Var CH-Lae CN-Dsh US-UiA -o data/raw
+
+21  Pagonas Moncada, Valeria Andrea
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s JP-Api CA-Ca1 CH-Rtb CZ-KrP US-Elm -o data/raw
+
+22  Roy, Sanglap
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s ID-PaD US-Vcm NL-Vkp BE-Lon AU-How -o data/raw
+
+23  Ruschmeyer, Lara
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s JP-Tak US-Me6 AU-Lon AR-CCa DE-RuC -o data/raw
+
+24  Salma, Umme
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Boy CZ-BK1 IT-Cp2 US-Seg CN-Jzh -o data/raw
+
+25  Sanzol Rieth, Timo
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Whr IT-SR2 CN-Xi2 US-Mo3 CZ-wet -o data/raw
+
+26  Schmidle, Johanna
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CR-AqC SE-Svb CN-You US-Bi2 AU-Lit -o data/raw
+
+27  Schuba, Tom
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s DE-HoH CA-Man AU-Sam KR-CRK US-ICh -o data/raw
+
+28  Shahzad, Zainab
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s JP-Yms US-NC2 CN-BeO NZ-Lau DE-RuM -o data/raw
+
+29  Tellew, Sage
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Ctr DE-Tha CN-Dan CR-Fsc US-MBP -o data/raw
+
+30  Tepper, Malte Lukas
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s JP-Ynf BE-Bra CH-Oe1 US-MN2 AU-TTE -o data/raw
+
+31  von Raesfeld, Gian Luca
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s DE-Hzd JP-Ta2 NZ-ADd US-Ro5 BE-Maa -o data/raw
+
+32  Weghorst, Tamara Janine
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-UMd RU-Fy2 JP-MMF AT-Neu DE-Kli -o data/raw
+
+33  Wells, Phoebe
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-CMW SE-Htm DE-RuR KR-Hnm CA-ARF -o data/raw
+
+34  Wesche, Julian
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s US-WCr FI-Hyy MN-Nkh DE-Geb ES-LM1 -o data/raw
+
+35  Braun, Merle
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s DK-Sor US-Prr CH-Oe3 JP-Hc3 ES-LJu -o data/raw
+
+36  Kerber, Anastasia
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s AU-Wrr US-SP1 CD-Ygb CN-Du2 FI-Qvd -o data/raw
+
+37  Schlosser, Hannah
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s BR-Sa1 CH-Dav MN-Kbu US-DFC UK-AMo -o data/raw
+
+38  Spang, Anna
+    fluxnet-shuttle download -f data/snapshots/fluxnet_shuttle_snapshot_*.csv -s CN-Dzo US-Ho2 FR-Nzn BJ-Db1 AU-Fle -o data/raw
+

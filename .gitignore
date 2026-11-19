@@ -1,1 +1,13 @@
 .DS_Store
+
+# Raw data
+*.csv
+*.zip
+
+# R temporary files
+.Rhistory
+
+# Environment files
+.shuttle-env/
+data/.shuttle-env/
+

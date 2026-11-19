@@ -1,0 +1,194 @@
+---
+title: "Assignment Block 4: Flux Observations"
+author: "Tom Schuba"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    theme: cosmo
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+
+```{r setup, include=FALSE}
+# Load necessary libraries
+library(tidyverse)
+library(lubridate)
+library(knitr)
+library(kableExtra)
+library(sf)
+library(rnaturalearth)
+library(viridis)
+library(here)
+
+# --- CONFIGURATION ---
+SITES <- c("DE-HoH", "CA-Man", "AU-Sam", "KR-CRK", "US-ICh")
+KEEP_VARS <- c("TIMESTAMP_START", "TA_F", "SW_IN_F", "VPD_F", "P_F", 
+               "NETRAD", "G_F_MDS", "H_F_MDS", "H_F_MDS_QC", 
+               "LE_F_MDS", "LE_F_MDS_QC", "NEE_VUT_REF", "NEE_VUT_REF_QC", 
+               "GPP_NT_VUT_REF", "RECO_NT_VUT_REF")
+
+# Function to load and clean data from ZIPs (paths anchored at project root)
+load_flux_data <- function(site_id) {
+  zip_path <- list.files(
+    here::here("data", "raw"),
+    pattern = paste0("_", site_id, "_FLUXNET_.*\\.zip$"),
+    full.names = TRUE
+  )
+  if (length(zip_path) == 0) return(NULL)
+
+  zz <- unzip(zip_path[1], list = TRUE)
+  hh_file <- zz$Name[grep("FLUXMET_HH", zz$Name)]
+
+  df <- read.csv(unzip(zip_path[1], files = hh_file), 
+                 na.strings = "-9999", 
+                 colClasses = c(TIMESTAMP_START = "character"))
+
+  available_vars <- intersect(colnames(df), KEEP_VARS)
+  df <- df[, available_vars]
+
+  df <- df %>% 
+    mutate(time = as.POSIXct(TIMESTAMP_START, format = "%Y%m%d%H%M", tz = "UTC"),
+           site = site_id) %>% 
+    select(-TIMESTAMP_START)
+  return(df)
+}
+
+# Load all site data into one dataframe
+all_data <- map_df(SITES, load_flux_data)
+
+# Load snapshot for metadata
+snapshot_file <- list.files(here::here("data","snapshots"),
+                           pattern = "snapshot.*\\.csv",
+                           full.names = TRUE)[1]
+
+snapshot <- read.csv(snapshot_file, colClasses = "character")
+
+tower_info <- snapshot %>% 
+  filter(site_id %in% SITES) %>% 
+  select(site_id, site_name, igbp, location_lat, location_long, first_year, last_year, data_hub, product_citation) %>% 
+  rename(ID = site_id, Name = site_name, IGBP = igbp, 
+         Lat = location_lat, Lon = location_long, 
+         Start = first_year, End = last_year, Hub = data_hub, Citation = product_citation)
+
+# Load geographical data
+world <- ne_countries(scale = "medium", returnclass = "sf")
+tower_coords <- tower_info %>% 
+  mutate(Lat = as.numeric(Lat), Lon = as.numeric(Lon))
+
+# Calculate coverage
+coverage <- all_data %>% 
+  mutate(year = year(time)) %>% 
+  group_by(site, year) %>% 
+  summarise(measured_share = mean(NEE_VUT_REF_QC == 0, na.rm = TRUE), .groups = 'drop')
+
+# Calculate annual precipitation
+annual_p <- all_data %>% 
+  mutate(year = year(time)) %>% 
+  group_by(site, year) %>% 
+  summarise(p_sum = sum(P_F, na.rm = TRUE), .groups = 'drop') %>% 
+  group_by(site) %>% 
+  summarise(P_F_mean_annual = mean(p_sum))
+
+# Calculate summary statistics
+stats <- all_data %>% 
+  group_by(site) %>% 
+  summarise(across(all_of(c("TA_F", "SW_IN_F", "VPD_F", "NEE_VUT_REF", "GPP_NT_VUT_REF", "RECO_NT_VUT_REF", "H_F_MDS", "LE_F_MDS")), 
+                   list(mean = ~mean(.x, na.rm=T), min = ~min(.x, na.rm=T), max = ~max(.x, na.rm=T), missing = ~mean(is.na(.x))*100)))
+
+final_stats <- left_join(stats, annual_p, by = "site")
+
+# Calculate daily fluxes
+daily_flux <- all_data %>% 
+  mutate(date = as.Date(time)) %>% 
+  group_by(site, date) %>% 
+  summarise(across(c(NEE_VUT_REF, GPP_NT_VUT_REF, RECO_NT_VUT_REF), 
+                   ~mean(.x, na.rm=T) * 1.0378), .groups = 'drop')
+
+# Define seasons
+north_seasons <- c("12"="Winter", "1"="Winter", "2"="Winter", "3"="Spring", "4"="Spring", "5"="Spring", 
+                   "6"="Summer", "7"="Summer", "8"="Summer", "9"="Autumn", "10"="Autumn", "11"="Autumn")
+south_seasons <- c("12"="Summer", "1"="Summer", "2"="Summer", "3"="Autumn", "4"="Autumn", "5"="Autumn", 
+                   "6"="Winter", "7"="Winter", "8"="Winter", "9"="Spring", "10"="Spring", "11"="Spring")
+
+site_lats <- tower_info %>% select(ID, Lat) %>% mutate(Lat = as.numeric(Lat))
+
+# Calculate diurnal data
+diurnal_data <- all_data %>% 
+  mutate(month = month(time), hour = hour(time) + minute(time)/60) %>% 
+  left_join(site_lats, by = c("site" = "ID")) %>% 
+  mutate(season = if_else(Lat >= 0, 
+                          north_seasons[as.character(month)], 
+                          south_seasons[as.character(month)]))
+
+diurnal_summary <- diurnal_data %>% 
+  group_by(site, season, hour) %>% 
+  summarise(NEE = mean(NEE_VUT_REF, na.rm=T), LE = mean(LE_F_MDS, na.rm=T), .groups = 'drop')
+
+# Energy balance analysis
+site_eb <- all_data %>% filter(site == "DE-HoH")
+
+eb_valid <- site_eb %>% 
+  filter(H_F_MDS_QC == 0, LE_F_MDS_QC == 0) %>% 
+  filter(!is.na(NETRAD), !is.na(G_F_MDS), !is.na(H_F_MDS), !is.na(LE_F_MDS))
+
+x_val <- eb_valid$NETRAD - eb_valid$G_F_MDS
+y_val <- eb_valid$H_F_MDS + eb_valid$LE_F_MDS
+
+fit <- lm(y_val ~ x_val)
+slope <- coef(fit)[2]
+```
+
+```{r results, echo=FALSE, message=FALSE, warning=FALSE, fig.width=10, fig.height=6}
+# Overview table
+kable(tower_info, caption = "Overview of analyzed FLUXNET sites") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+
+# Geographical distribution plot
+ggplot(data = world) +
+  geom_sf(fill = "antiquewhite") +
+  geom_point(data = tower_coords, aes(x = Lon, y = Lat, color = IGBP), size = 4) +
+  geom_text(data = tower_coords, aes(x = Lon, y = Lat, label = ID), vjust = -1, size = 3) +
+  labs(title = "Geographical Distribution of Selected Flux Towers", color = "IGBP Class") +
+  theme_minimal()
+
+# Coverage plot
+ggplot(coverage, aes(x = year, y = site, fill = measured_share)) +
+  geom_tile() +
+  scale_fill_viridis_c(option = "magma", labels = scales::percent) +
+  labs(title = "Share of Measured NEE (QC=0) per Site and Year", 
+       x = "Year", y = "Site ID", fill = "Measured Share") +
+  theme_minimal()
+
+# Summary statistics table
+kable(final_stats, digits = 2, caption = "Summary statistics for all five sites") %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 11)
+
+# Daily flux plot
+ggplot(daily_flux, aes(x = date)) + 
+  geom_line(aes(y = NEE_VUT_REF, color = "NEE"), alpha = 0.6) + 
+  facet_wrap(~site, scales = "free_y") + 
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(y = "g C m⁻² d⁻¹", x = "Date", title = "Daily Net Ecosystem Exchange (NEE)", color = "Variable") + 
+  theme_minimal()
+
+# Diurnal cycle plot
+ggplot(diurnal_summary, aes(x = hour, y = NEE, color = season)) + 
+  geom_line() + 
+  facet_wrap(~site) + 
+  labs(title = "Diurnal Cycle of NEE by Season", y = "µmol m⁻² s⁻¹", x = "Hour of Day") + 
+  theme_minimal()
+
+# Energy balance plot
+ggplot(eb_valid, aes(x = NETRAD - G_F_MDS, y = H_F_MDS + LE_F_MDS)) +
+  geom_point(alpha = 0.2, size = 0.5) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+  geom_abline(slope = slope, intercept = coef(fit)[1], color = "red", size = 1) +
+  labs(title = paste("Energy Balance: DE-HoH (Slope =", round(slope, 3), ")"),
+       x = "NETRAD - G (W m⁻²)", y = "H + LE (W m⁻²)") +
+  theme_minimal() + coord_fixed()
+```

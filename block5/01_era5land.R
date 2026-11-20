@@ -15,14 +15,14 @@
 #      scroll to "Terms of use" and click Accept.
 #   3. Copy your Personal Access Token from your CDS profile page and run in R:
 #        install.packages("ecmwfr")
-#        ecmwfr::wf_set_key(key = "PASTE-YOUR-TOKEN-HERE")
+#        ecmwfr::wf_set_key(key = "0203b0d9-e74c-4bba-bf22-867f0c072ea5")
 #
 # Output: data/external/era5land/<SITE>_era5land_hourly.csv and <SITE>_era5land_daily.csv
 # Cite:   Muñoz-Sabater, J. et al. (2021) ERA5-Land. ESSD 13, 4349–4383.
 #         https://doi.org/10.5194/essd-13-4349-2021 (+ "Contains modified Copernicus
 #         Climate Change Service information <year>")
 
-source(file.path("scripts", "block5", "block5_sites.R"))
+source(file.path("block5", "block5_sites.R"))
 library(ecmwfr)
 
 # ---- Settings -----------------------------------------------------------------
